@@ -153,6 +153,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/network/TcpClient.o: src/network/TcpClient.cpp.o
+.PHONY : src/network/TcpClient.o
+
+# target to build an object file
+src/network/TcpClient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o
+.PHONY : src/network/TcpClient.cpp.o
+
+src/network/TcpClient.i: src/network/TcpClient.cpp.i
+.PHONY : src/network/TcpClient.i
+
+# target to preprocess a source file
+src/network/TcpClient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.i
+.PHONY : src/network/TcpClient.cpp.i
+
+src/network/TcpClient.s: src/network/TcpClient.cpp.s
+.PHONY : src/network/TcpClient.s
+
+# target to generate assembly for a file
+src/network/TcpClient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.s
+.PHONY : src/network/TcpClient.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/network/TcpClient.o"
+	@echo "... src/network/TcpClient.i"
+	@echo "... src/network/TcpClient.s"
 .PHONY : help
 
 

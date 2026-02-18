@@ -5,15 +5,17 @@
 #include <array>
 
 /**
- * 비동기 TCP 클라이언트 클래스
+ * 비동기 TCP Connection 클래스
  * - 서버에 접속(connect)
  * - 비동기 read (async_read_some)
  * - 연결 종료 처리
  */
-class TcpClient {
-public:    
+class Connection {
+public:
     // 생성자: io_context, 호스트명, 포트 전달
-    TcpClient(boost::asio::io_context& io, const std::string& host, int port);
+    Connection(boost::asio::io_context& io,
+               const std::string& host,
+               int port);
 
     // 서버 접속 시작
     void Connect();
@@ -26,7 +28,8 @@ private:
     void StartRead();
 
     // 읽기 콜백
-    void OnRead(const boost::system::error_code& ec, std::size_t bytes);
+    void OnRead(const boost::system::error_code& ec,
+                std::size_t bytes);
 
 private:
     boost::asio::ip::tcp::socket socket_;     // TCP 소켓
