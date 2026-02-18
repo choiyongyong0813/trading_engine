@@ -1,10 +1,18 @@
-#include <iostream> // 표준 출력 사용을 위한 헤더
+#include "network/TcpClient.h"
+#include <boost/asio.hpp>
 
-// 프로그램의 시작점 (Entry Point)
 int main() {
-    // 콘솔에 문자열 출력
-    std::cout << "Trading Engine C++ Environment Ready" << std::endl;
+    // Boost.Asio의 이벤트 루프
+    boost::asio::io_context io;
 
-    // 0 반환 → 프로그램 정상 종료 의미
+    // example.com:80 → HTTP 테스트 목적
+    TcpClient client(io, "example.com", 80);
+
+    // 서버 접속 시작
+    client.Connect();
+
+    // 이벤트 루프 실행 (connect/read 콜백이 여기서 처리됨)
+    io.run();
+
     return 0;
 }
