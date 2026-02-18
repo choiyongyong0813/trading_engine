@@ -11,7 +11,7 @@
  * - 연결 종료 처리
  */
 class TcpClient {
-public:
+public:    
     // 생성자: io_context, 호스트명, 포트 전달
     TcpClient(boost::asio::io_context& io, const std::string& host, int port);
 
