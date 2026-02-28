@@ -1,6 +1,6 @@
 CMakeFiles/trading_engine.dir/src/main.cpp.o: \
  /home/jaeyong/trading-engine/src/main.cpp /usr/include/stdc-predef.h \
- /home/jaeyong/trading-engine/src/network/TcpClient.h \
+ /home/jaeyong/trading-engine/src/network/Connection.h \
  /usr/include/boost/asio.hpp \
  /usr/include/boost/asio/associated_allocator.hpp \
  /usr/include/boost/asio/detail/config.hpp /usr/include/boost/config.hpp \

@@ -24,12 +24,14 @@ public:
     void Close();
 
 private:
-    // 비동기 읽기 시작
-    void StartRead();
+    // 헤더 4바이트 읽기
+    void ReadHeader();
 
-    // 읽기 콜백
-    void OnRead(const boost::system::error_code& ec,
-                std::size_t bytes);
+    // 바디 읽기
+    void ReadBody(std::size_t bodyLength);
+
+    // 메시지 처리
+    void ProcessMessage();
 
 private:
     boost::asio::ip::tcp::socket socket_;     // TCP 소켓
@@ -37,6 +39,7 @@ private:
 
     std::string host_;
     int port_;
+    std::array<char, 4> header_;  // length header
+    std::vector<char> body_;      // message body
 
-    std::array<char, 1024> buffer_;           // 수신 버퍼
 };
