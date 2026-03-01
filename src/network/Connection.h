@@ -6,11 +6,6 @@
 #include <vector>
 #include <deque>
 
-/**
- * Length 기반 TCP Connection
- * [4byte length][body] 구조
- * WriteQueue 포함
- */
 class Connection {
 public:
     Connection(boost::asio::io_context& io,
@@ -19,34 +14,36 @@ public:
 
     void Connect();
     void Close();
-
-    /**
-     * 외부에서 메시지 전송 요청
-     * 문자열을 length 기반 메시지로 만들어 queue에 추가
-     */
     void Send(const std::string& message);
 
 private:
-    // 수신 관련
+    // 수신
     void ReadHeader();
     void ReadBody(std::size_t bodyLength);
     void ProcessMessage();
 
-    // 송신 관련
+    // 송신
     void DoWrite();
+
+    // 안정성 관련
+    void StartReconnect();
+    void StartHeartbeat();
 
 private:
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::resolver resolver_;
 
+    boost::asio::steady_timer reconnectTimer_;
+    boost::asio::steady_timer heartbeatTimer_;
+
     std::string host_;
     int port_;
 
-    // 수신 버퍼
+    bool connected_ = false;
+
     std::array<char, 4> header_;
     std::vector<char> body_;
 
-    // 🔥 WriteQueue
     std::deque<std::vector<char>> writeQueue_;
     bool writing_ = false;
 };

@@ -1,25 +1,33 @@
 #include "Connection.h"
 #include <iostream>
 #include <cstring>
-#include <arpa/inet.h>   // htonl, ntohl
+#include <arpa/inet.h>
 
-/**
+/*
  * 생성자
+ * reconnectTimer_ 와 heartbeatTimer_는 io_context와 연결됨
  */
 Connection::Connection(boost::asio::io_context& io,
                        const std::string& host,
                        int port)
     : socket_(io),
       resolver_(io),
+      reconnectTimer_(io),
+      heartbeatTimer_(io),
       host_(host),
       port_(port)
 {
 }
 
-/**
- * 서버 접속
+/*
+ * 서버 접속 시작
  */
 void Connection::Connect() {
+
+    // reconnect 이후에는 socket이 닫혀있을 수 있음
+    if (!socket_.is_open()) {
+        socket_ = boost::asio::ip::tcp::socket(resolver_.get_executor());
+    }
 
     auto endpoints =
         resolver_.resolve(host_, std::to_string(port_));
@@ -28,51 +36,106 @@ void Connection::Connect() {
         socket_,
         endpoints,
         [this](auto ec, auto) {
+
             if (!ec) {
                 std::cout << "[Connected]" << std::endl;
+
+                connected_ = true;
+
                 ReadHeader();
-            } else {
+                StartHeartbeat();
+            }
+            else {
                 std::cout << "Connect error: "
                           << ec.message() << std::endl;
+
+                StartReconnect();
             }
         }
     );
 }
 
-/**
- * 외부에서 메시지 전송 요청
- * 1. length 붙여서 패킷 생성
- * 2. queue에 push
- * 3. write 진행 중 아니면 DoWrite 시작
+/*
+ * reconnect 로직
+ * 일정 시간 후 다시 Connect 시도
+ */
+void Connection::StartReconnect() {
+
+    connected_ = false;
+
+    if (socket_.is_open()) {
+        socket_.close();
+    }
+
+    std::cout << "[Reconnect in 3 seconds...]" << std::endl;
+
+    reconnectTimer_.expires_after(std::chrono::seconds(3));
+
+    reconnectTimer_.async_wait(
+        [this](auto ec) {
+            if (!ec) {
+                Connect();
+            }
+        }
+    );
+}
+
+/*
+ * heartbeat
+ * 연결 유지 확인용 주기적 전송
+ */
+void Connection::StartHeartbeat() {
+
+    heartbeatTimer_.expires_after(std::chrono::seconds(5));
+
+    heartbeatTimer_.async_wait(
+        [this](auto ec) {
+
+            if (!ec && connected_) {
+
+                std::cout << "[Heartbeat]" << std::endl;
+
+                Send("HEARTBEAT");
+
+                StartHeartbeat();
+            }
+        }
+    );
+}
+
+/*
+ * 외부 메시지 전송
+ * [4byte length][body] 형태로 패킷 구성
  */
 void Connection::Send(const std::string& message) {
 
-    // body를 vector로 복사
+    if (!connected_) return;
+
     std::vector<char> packet;
 
     uint32_t length = htonl(message.size());
 
-    // 4바이트 length 추가
     packet.resize(4 + message.size());
+
     std::memcpy(packet.data(), &length, 4);
     std::memcpy(packet.data() + 4,
                 message.data(),
                 message.size());
 
-    // queue에 추가
     writeQueue_.push_back(std::move(packet));
 
-    // 현재 write 중이 아니면 시작
     if (!writing_) {
         DoWrite();
     }
 }
 
-/**
- * 실제 async_write 실행 함수
- * 항상 하나의 write만 수행
+/*
+ * 실제 async_write 수행
+ * 동시에 하나의 write만 허용
  */
 void Connection::DoWrite() {
+
+    if (writeQueue_.empty()) return;
 
     writing_ = true;
 
@@ -84,13 +147,13 @@ void Connection::DoWrite() {
             if (ec) {
                 std::cout << "[Write Error] "
                           << ec.message() << std::endl;
+
+                StartReconnect();
                 return;
             }
 
-            // 현재 메시지 제거
             writeQueue_.pop_front();
 
-            // 다음 메시지 있으면 계속 write
             if (!writeQueue_.empty()) {
                 DoWrite();
             }
@@ -101,7 +164,7 @@ void Connection::DoWrite() {
     );
 }
 
-/**
+/*
  * 4바이트 헤더 읽기
  */
 void Connection::ReadHeader() {
@@ -114,6 +177,8 @@ void Connection::ReadHeader() {
             if (ec) {
                 std::cout << "[Disconnect] "
                           << ec.message() << std::endl;
+
+                StartReconnect();
                 return;
             }
 
@@ -126,8 +191,8 @@ void Connection::ReadHeader() {
     );
 }
 
-/**
- * bodyLength 만큼 정확히 읽기
+/*
+ * body 읽기
  */
 void Connection::ReadBody(std::size_t bodyLength) {
 
@@ -141,6 +206,8 @@ void Connection::ReadBody(std::size_t bodyLength) {
             if (ec) {
                 std::cout << "[Disconnect] "
                           << ec.message() << std::endl;
+
+                StartReconnect();
                 return;
             }
 
@@ -150,8 +217,10 @@ void Connection::ReadBody(std::size_t bodyLength) {
     );
 }
 
-/**
- * 수신 메시지 처리
+/*
+ * 메시지 처리
+ * 현재는 단순 출력
+ * 추후 protocol/Parser로 분리 예정
  */
 void Connection::ProcessMessage() {
 
@@ -160,10 +229,13 @@ void Connection::ProcessMessage() {
     std::cout << "[RECV] " << msg << std::endl;
 }
 
-/**
- * 소켓 종료
+/*
+ * 수동 종료
  */
 void Connection::Close() {
+
+    connected_ = false;
+
     if (socket_.is_open()) {
         socket_.close();
     }
