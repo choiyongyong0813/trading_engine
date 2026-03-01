@@ -1,7 +1,7 @@
-CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o: \
- /home/jaeyong/trading-engine/src/network/TcpClient.cpp \
+CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o: \
+ /home/jaeyong/trading-engine/src/network/Connection.cpp \
  /usr/include/stdc-predef.h \
- /home/jaeyong/trading-engine/src/network/TcpClient.h \
+ /home/jaeyong/trading-engine/src/network/Connection.h \
  /usr/include/boost/asio.hpp \
  /usr/include/boost/asio/associated_allocator.hpp \
  /usr/include/boost/asio/detail/config.hpp /usr/include/boost/config.hpp \

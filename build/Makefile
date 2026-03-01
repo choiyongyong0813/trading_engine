@@ -153,29 +153,29 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/network/TcpClient.o: src/network/TcpClient.cpp.o
-.PHONY : src/network/TcpClient.o
+src/network/Connection.o: src/network/Connection.cpp.o
+.PHONY : src/network/Connection.o
 
 # target to build an object file
-src/network/TcpClient.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o
-.PHONY : src/network/TcpClient.cpp.o
+src/network/Connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o
+.PHONY : src/network/Connection.cpp.o
 
-src/network/TcpClient.i: src/network/TcpClient.cpp.i
-.PHONY : src/network/TcpClient.i
+src/network/Connection.i: src/network/Connection.cpp.i
+.PHONY : src/network/Connection.i
 
 # target to preprocess a source file
-src/network/TcpClient.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.i
-.PHONY : src/network/TcpClient.cpp.i
+src/network/Connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/Connection.cpp.i
+.PHONY : src/network/Connection.cpp.i
 
-src/network/TcpClient.s: src/network/TcpClient.cpp.s
-.PHONY : src/network/TcpClient.s
+src/network/Connection.s: src/network/Connection.cpp.s
+.PHONY : src/network/Connection.s
 
 # target to generate assembly for a file
-src/network/TcpClient.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.s
-.PHONY : src/network/TcpClient.cpp.s
+src/network/Connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/Connection.cpp.s
+.PHONY : src/network/Connection.cpp.s
 
 # Help Target
 help:
@@ -189,9 +189,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/network/TcpClient.o"
-	@echo "... src/network/TcpClient.i"
-	@echo "... src/network/TcpClient.s"
+	@echo "... src/network/Connection.o"
+	@echo "... src/network/Connection.i"
+	@echo "... src/network/Connection.s"
 .PHONY : help
 
 

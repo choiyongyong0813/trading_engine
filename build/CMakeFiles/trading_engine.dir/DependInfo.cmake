@@ -9,7 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/jaeyong/trading-engine/src/main.cpp" "CMakeFiles/trading_engine.dir/src/main.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/main.cpp.o.d"
-  "/home/jaeyong/trading-engine/src/network/TcpClient.cpp" "CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o.d"
+  "/home/jaeyong/trading-engine/src/network/Connection.cpp" "CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o.d"
   )
 
 # Targets to which this target links.

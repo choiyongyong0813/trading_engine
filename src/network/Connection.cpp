@@ -1,7 +1,7 @@
 #include "Connection.h"
 #include <iostream>
-#include <cstring>   // memcpy
-#include <arpa/inet.h> // ntohl
+#include <cstring>
+#include <arpa/inet.h>   // htonl, ntohl
 
 /**
  * 생성자
@@ -30,11 +30,8 @@ void Connection::Connect() {
         [this](auto ec, auto) {
             if (!ec) {
                 std::cout << "[Connected]" << std::endl;
-
-                // 연결 성공 → 헤더 읽기 시작
                 ReadHeader();
-            }
-            else {
+            } else {
                 std::cout << "Connect error: "
                           << ec.message() << std::endl;
             }
@@ -43,8 +40,69 @@ void Connection::Connect() {
 }
 
 /**
+ * 외부에서 메시지 전송 요청
+ * 1. length 붙여서 패킷 생성
+ * 2. queue에 push
+ * 3. write 진행 중 아니면 DoWrite 시작
+ */
+void Connection::Send(const std::string& message) {
+
+    // body를 vector로 복사
+    std::vector<char> packet;
+
+    uint32_t length = htonl(message.size());
+
+    // 4바이트 length 추가
+    packet.resize(4 + message.size());
+    std::memcpy(packet.data(), &length, 4);
+    std::memcpy(packet.data() + 4,
+                message.data(),
+                message.size());
+
+    // queue에 추가
+    writeQueue_.push_back(std::move(packet));
+
+    // 현재 write 중이 아니면 시작
+    if (!writing_) {
+        DoWrite();
+    }
+}
+
+/**
+ * 실제 async_write 실행 함수
+ * 항상 하나의 write만 수행
+ */
+void Connection::DoWrite() {
+
+    writing_ = true;
+
+    boost::asio::async_write(
+        socket_,
+        boost::asio::buffer(writeQueue_.front()),
+        [this](auto ec, std::size_t) {
+
+            if (ec) {
+                std::cout << "[Write Error] "
+                          << ec.message() << std::endl;
+                return;
+            }
+
+            // 현재 메시지 제거
+            writeQueue_.pop_front();
+
+            // 다음 메시지 있으면 계속 write
+            if (!writeQueue_.empty()) {
+                DoWrite();
+            }
+            else {
+                writing_ = false;
+            }
+        }
+    );
+}
+
+/**
  * 4바이트 헤더 읽기
- * 반드시 정확히 4바이트 읽는다.
  */
 void Connection::ReadHeader() {
 
@@ -59,19 +117,17 @@ void Connection::ReadHeader() {
                 return;
             }
 
-            // 네트워크 바이트 순서 → host 순서 변환
             uint32_t bodyLength;
             std::memcpy(&bodyLength, header_.data(), 4);
             bodyLength = ntohl(bodyLength);
 
-            // 바디 읽기 시작
             ReadBody(bodyLength);
         }
     );
 }
 
 /**
- * bodyLength 만큼 정확히 읽는다.
+ * bodyLength 만큼 정확히 읽기
  */
 void Connection::ReadBody(std::size_t bodyLength) {
 
@@ -88,10 +144,7 @@ void Connection::ReadBody(std::size_t bodyLength) {
                 return;
             }
 
-            // 메시지 처리
             ProcessMessage();
-
-            // 다음 메시지 위해 다시 헤더 읽기
             ReadHeader();
         }
     );

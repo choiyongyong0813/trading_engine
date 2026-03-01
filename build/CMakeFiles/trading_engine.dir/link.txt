@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/trading_engine.dir/src/main.cpp.o CMakeFiles/trading_engine.dir/src/network/TcpClient.cpp.o -o trading_engine  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 
+/usr/bin/c++ CMakeFiles/trading_engine.dir/src/main.cpp.o CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o -o trading_engine  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 

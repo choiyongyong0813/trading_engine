@@ -17,7 +17,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 # 실행 파일에 포함할 소스 파일들
 add_executable(trading_engine
     src/main.cpp
-    src/network/TcpClient.cpp
+    src/network/Connection.cpp
 )
 
 # Boost 라이브러리 링크
