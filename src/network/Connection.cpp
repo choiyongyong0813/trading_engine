@@ -5,7 +5,6 @@
 
 /*
  * 생성자
- * reconnectTimer_ 와 heartbeatTimer_는 io_context와 연결됨
  */
 Connection::Connection(boost::asio::io_context& io,
                        const std::string& host,
@@ -24,7 +23,7 @@ Connection::Connection(boost::asio::io_context& io,
  */
 void Connection::Connect() {
 
-    // reconnect 이후에는 socket이 닫혀있을 수 있음
+    // reconnect 이후 socket이 닫혀있으면 새로 생성
     if (!socket_.is_open()) {
         socket_ = boost::asio::ip::tcp::socket(resolver_.get_executor());
     }
@@ -38,14 +37,20 @@ void Connection::Connect() {
         [this](auto ec, auto) {
 
             if (!ec) {
+
                 std::cout << "[Connected]" << std::endl;
 
                 connected_ = true;
+
+                // 🔥 재접속 성공 → delay 초기화
+                reconnectDelay_ = 1;
+                reconnecting_ = false;
 
                 ReadHeader();
                 StartHeartbeat();
             }
             else {
+
                 std::cout << "Connect error: "
                           << ec.message() << std::endl;
 
@@ -56,33 +61,49 @@ void Connection::Connect() {
 }
 
 /*
- * reconnect 로직
- * 일정 시간 후 다시 Connect 시도
+ * 고도화된 재접속 로직
+ * - 중복 실행 방지
+ * - exponential backoff
  */
 void Connection::StartReconnect() {
 
+    // 이미 재접속 중이면 무시
+    if (reconnecting_) return;
+
+    reconnecting_ = true;
     connected_ = false;
 
     if (socket_.is_open()) {
         socket_.close();
     }
 
-    std::cout << "[Reconnect in 3 seconds...]" << std::endl;
+    std::cout << "[Reconnect in "
+              << reconnectDelay_
+              << " seconds...]" << std::endl;
 
-    reconnectTimer_.expires_after(std::chrono::seconds(3));
+    reconnectTimer_.expires_after(
+        std::chrono::seconds(reconnectDelay_));
 
     reconnectTimer_.async_wait(
         [this](auto ec) {
-            if (!ec) {
-                Connect();
-            }
+
+            if (ec) return;
+
+            // delay 2배 증가 (최대 30초)
+            reconnectDelay_ =
+                std::min(reconnectDelay_ * 2,
+                         maxReconnectDelay_);
+
+            reconnecting_ = false;
+
+            Connect();
         }
     );
 }
 
 /*
  * heartbeat
- * 연결 유지 확인용 주기적 전송
+ * 연결 유지 확인용
  */
 void Connection::StartHeartbeat() {
 
@@ -104,8 +125,7 @@ void Connection::StartHeartbeat() {
 }
 
 /*
- * 외부 메시지 전송
- * [4byte length][body] 형태로 패킷 구성
+ * 메시지 전송
  */
 void Connection::Send(const std::string& message) {
 
@@ -130,8 +150,7 @@ void Connection::Send(const std::string& message) {
 }
 
 /*
- * 실제 async_write 수행
- * 동시에 하나의 write만 허용
+ * 실제 write 수행
  */
 void Connection::DoWrite() {
 
@@ -145,6 +164,7 @@ void Connection::DoWrite() {
         [this](auto ec, std::size_t) {
 
             if (ec) {
+
                 std::cout << "[Write Error] "
                           << ec.message() << std::endl;
 
@@ -175,6 +195,7 @@ void Connection::ReadHeader() {
         [this](auto ec, std::size_t) {
 
             if (ec) {
+
                 std::cout << "[Disconnect] "
                           << ec.message() << std::endl;
 
@@ -204,6 +225,7 @@ void Connection::ReadBody(std::size_t bodyLength) {
         [this](auto ec, std::size_t) {
 
             if (ec) {
+
                 std::cout << "[Disconnect] "
                           << ec.message() << std::endl;
 
@@ -218,9 +240,7 @@ void Connection::ReadBody(std::size_t bodyLength) {
 }
 
 /*
- * 메시지 처리
- * 현재는 단순 출력
- * 추후 protocol/Parser로 분리 예정
+ * 수신 메시지 처리
  */
 void Connection::ProcessMessage() {
 

@@ -40,7 +40,10 @@ private:
     int port_;
 
     bool connected_ = false;
-
+    // 재접속 고도화 관련 변수
+    bool reconnecting_ = false;   // 중복 방지
+    int reconnectDelay_ = 1;      // 시작 1초
+    const int maxReconnectDelay_ = 30; // 최대 30초
     std::array<char, 4> header_;
     std::vector<char> body_;
 
