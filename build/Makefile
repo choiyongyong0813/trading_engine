@@ -177,6 +177,30 @@ src/network/Connection.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/Connection.cpp.s
 .PHONY : src/network/Connection.cpp.s
 
+src/network/EchoServer.o: src/network/EchoServer.cpp.o
+.PHONY : src/network/EchoServer.o
+
+# target to build an object file
+src/network/EchoServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o
+.PHONY : src/network/EchoServer.cpp.o
+
+src/network/EchoServer.i: src/network/EchoServer.cpp.i
+.PHONY : src/network/EchoServer.i
+
+# target to preprocess a source file
+src/network/EchoServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.i
+.PHONY : src/network/EchoServer.cpp.i
+
+src/network/EchoServer.s: src/network/EchoServer.cpp.s
+.PHONY : src/network/EchoServer.s
+
+# target to generate assembly for a file
+src/network/EchoServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.s
+.PHONY : src/network/EchoServer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +216,9 @@ help:
 	@echo "... src/network/Connection.o"
 	@echo "... src/network/Connection.i"
 	@echo "... src/network/Connection.s"
+	@echo "... src/network/EchoServer.o"
+	@echo "... src/network/EchoServer.i"
+	@echo "... src/network/EchoServer.s"
 .PHONY : help
 
 

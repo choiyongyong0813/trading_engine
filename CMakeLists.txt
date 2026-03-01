@@ -18,6 +18,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 add_executable(trading_engine
     src/main.cpp
     src/network/Connection.cpp
+    src/network/EchoServer.cpp
 )
 
 # Boost 라이브러리 링크
