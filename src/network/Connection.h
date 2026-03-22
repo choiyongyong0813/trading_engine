@@ -5,7 +5,17 @@
 #include <array>
 #include <vector>
 #include <deque>
+#include "../protocol/Parser.h"
 
+/*
+ * 운영급 Connection
+ * - Length 프레이밍
+ * - WriteQueue
+ * - Backoff Reconnect
+ * - Heartbeat
+ * - Heartbeat Timeout
+ * - 상태 머신 기반 관리
+ */
 class Connection {
 public:
     Connection(boost::asio::io_context& io,
@@ -17,6 +27,16 @@ public:
     void Send(const std::string& message);
 
 private:
+    // 상태 정의
+    enum class State {
+        DISCONNECTED,
+        CONNECTING,
+        CONNECTED,
+        RECONNECTING
+    };
+    Parser parser_;
+    void ChangeState(State newState);
+
     // 수신
     void ReadHeader();
     void ReadBody(std::size_t bodyLength);
@@ -25,9 +45,11 @@ private:
     // 송신
     void DoWrite();
 
-    // 안정성 관련
+    // 안정성
     void StartReconnect();
     void StartHeartbeat();
+    void StartHeartbeatTimeout();
+    void CancelHeartbeatTimeout();
 
 private:
     boost::asio::ip::tcp::socket socket_;
@@ -35,15 +57,16 @@ private:
 
     boost::asio::steady_timer reconnectTimer_;
     boost::asio::steady_timer heartbeatTimer_;
+    boost::asio::steady_timer heartbeatTimeoutTimer_;
 
     std::string host_;
     int port_;
 
-    bool connected_ = false;
-    // 재접속 고도화 관련 변수
-    bool reconnecting_ = false;   // 중복 방지
-    int reconnectDelay_ = 1;      // 시작 1초
-    const int maxReconnectDelay_ = 30; // 최대 30초
+    State state_ = State::DISCONNECTED;
+
+    int reconnectDelay_ = 1;
+    const int maxReconnectDelay_ = 30;
+
     std::array<char, 4> header_;
     std::vector<char> body_;
 

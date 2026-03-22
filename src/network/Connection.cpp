@@ -13,17 +13,50 @@ Connection::Connection(boost::asio::io_context& io,
       resolver_(io),
       reconnectTimer_(io),
       heartbeatTimer_(io),
+      heartbeatTimeoutTimer_(io),
       host_(host),
       port_(port)
 {
 }
 
 /*
- * 서버 접속 시작
+ * 상태 전이 함수
+ */
+void Connection::ChangeState(State newState) {
+
+    state_ = newState;
+
+    switch (state_) {
+
+        case State::DISCONNECTED:
+            std::cout << "[State] DISCONNECTED" << std::endl;
+            break;
+
+        case State::CONNECTING:
+            std::cout << "[State] CONNECTING" << std::endl;
+            break;
+
+        case State::CONNECTED:
+            std::cout << "[State] CONNECTED" << std::endl;
+            break;
+
+        case State::RECONNECTING:
+            std::cout << "[State] RECONNECTING" << std::endl;
+            break;
+    }
+}
+
+/*
+ * 연결 시작
  */
 void Connection::Connect() {
 
-    // reconnect 이후 socket이 닫혀있으면 새로 생성
+    if (state_ == State::CONNECTING ||
+        state_ == State::CONNECTED)
+        return;
+
+    ChangeState(State::CONNECTING);
+
     if (!socket_.is_open()) {
         socket_ = boost::asio::ip::tcp::socket(resolver_.get_executor());
     }
@@ -38,22 +71,14 @@ void Connection::Connect() {
 
             if (!ec) {
 
-                std::cout << "[Connected]" << std::endl;
-
-                connected_ = true;
-
-                // 🔥 재접속 성공 → delay 초기화
                 reconnectDelay_ = 1;
-                reconnecting_ = false;
+
+                ChangeState(State::CONNECTED);
 
                 ReadHeader();
                 StartHeartbeat();
             }
             else {
-
-                std::cout << "Connect error: "
-                          << ec.message() << std::endl;
-
                 StartReconnect();
             }
         }
@@ -61,25 +86,19 @@ void Connection::Connect() {
 }
 
 /*
- * 고도화된 재접속 로직
- * - 중복 실행 방지
- * - exponential backoff
+ * 재접속 로직
  */
 void Connection::StartReconnect() {
 
-    // 이미 재접속 중이면 무시
-    if (reconnecting_) return;
+    if (state_ == State::RECONNECTING)
+        return;
 
-    reconnecting_ = true;
-    connected_ = false;
+    ChangeState(State::RECONNECTING);
 
-    if (socket_.is_open()) {
+    CancelHeartbeatTimeout();
+
+    if (socket_.is_open())
         socket_.close();
-    }
-
-    std::cout << "[Reconnect in "
-              << reconnectDelay_
-              << " seconds...]" << std::endl;
 
     reconnectTimer_.expires_after(
         std::chrono::seconds(reconnectDelay_));
@@ -89,12 +108,9 @@ void Connection::StartReconnect() {
 
             if (ec) return;
 
-            // delay 2배 증가 (최대 30초)
             reconnectDelay_ =
                 std::min(reconnectDelay_ * 2,
                          maxReconnectDelay_);
-
-            reconnecting_ = false;
 
             Connect();
         }
@@ -102,8 +118,7 @@ void Connection::StartReconnect() {
 }
 
 /*
- * heartbeat
- * 연결 유지 확인용
+ * Heartbeat 전송
  */
 void Connection::StartHeartbeat() {
 
@@ -112,12 +127,11 @@ void Connection::StartHeartbeat() {
     heartbeatTimer_.async_wait(
         [this](auto ec) {
 
-            if (!ec && connected_) {
-
-                std::cout << "[Heartbeat]" << std::endl;
+            if (!ec &&
+                state_ == State::CONNECTED) {
 
                 Send("HEARTBEAT");
-
+                StartHeartbeatTimeout();
                 StartHeartbeat();
             }
         }
@@ -125,11 +139,107 @@ void Connection::StartHeartbeat() {
 }
 
 /*
- * 메시지 전송
+ * Heartbeat Timeout
+ */
+void Connection::StartHeartbeatTimeout() {
+
+    heartbeatTimeoutTimer_.expires_after(
+        std::chrono::seconds(10));
+
+    heartbeatTimeoutTimer_.async_wait(
+        [this](auto ec) {
+
+            if (!ec &&
+                state_ == State::CONNECTED) {
+
+                std::cout
+                    << "[Heartbeat Timeout]"
+                    << std::endl;
+
+                StartReconnect();
+            }
+        }
+    );
+}
+
+void Connection::CancelHeartbeatTimeout() {
+    heartbeatTimeoutTimer_.cancel();
+}
+
+/*
+ * 수신 처리
+ */
+void Connection::ReadHeader() {
+
+    boost::asio::async_read(
+        socket_,
+        boost::asio::buffer(header_),
+        [this](auto ec, std::size_t) {
+
+            if (ec) {
+                StartReconnect();
+                return;
+            }
+
+            uint32_t bodyLength;
+            std::memcpy(&bodyLength,
+                        header_.data(),
+                        4);
+
+            bodyLength = ntohl(bodyLength);
+
+            ReadBody(bodyLength);
+        }
+    );
+}
+
+void Connection::ReadBody(std::size_t bodyLength) {
+
+    body_.resize(bodyLength);
+
+    boost::asio::async_read(
+        socket_,
+        boost::asio::buffer(body_),
+        [this](auto ec, std::size_t) {
+
+            if (ec) {
+                StartReconnect();
+                return;
+            }
+
+            // Parser 호출
+            Message msg = parser_.Parse(body_);
+
+            std::cout << "[Parsed Message] "
+                      << msg.payload << std::endl;
+
+            CancelHeartbeatTimeout();
+
+            ReadHeader();
+        }
+    );
+}
+
+/*
+ * 메시지 처리
+ */
+void Connection::ProcessMessage() {
+
+    std::string msg(body_.begin(), body_.end());
+
+    std::cout << "[RECV] "
+              << msg << std::endl;
+
+    CancelHeartbeatTimeout();
+}
+
+/*
+ * 송신
  */
 void Connection::Send(const std::string& message) {
 
-    if (!connected_) return;
+    if (state_ != State::CONNECTED)
+        return;
 
     std::vector<char> packet;
 
@@ -144,14 +254,10 @@ void Connection::Send(const std::string& message) {
 
     writeQueue_.push_back(std::move(packet));
 
-    if (!writing_) {
+    if (!writing_)
         DoWrite();
-    }
 }
 
-/*
- * 실제 write 수행
- */
 void Connection::DoWrite() {
 
     if (writeQueue_.empty()) return;
@@ -164,89 +270,18 @@ void Connection::DoWrite() {
         [this](auto ec, std::size_t) {
 
             if (ec) {
-
-                std::cout << "[Write Error] "
-                          << ec.message() << std::endl;
-
                 StartReconnect();
                 return;
             }
 
             writeQueue_.pop_front();
 
-            if (!writeQueue_.empty()) {
+            if (!writeQueue_.empty())
                 DoWrite();
-            }
-            else {
+            else
                 writing_ = false;
-            }
         }
     );
-}
-
-/*
- * 4바이트 헤더 읽기
- */
-void Connection::ReadHeader() {
-
-    boost::asio::async_read(
-        socket_,
-        boost::asio::buffer(header_),
-        [this](auto ec, std::size_t) {
-
-            if (ec) {
-
-                std::cout << "[Disconnect] "
-                          << ec.message() << std::endl;
-
-                StartReconnect();
-                return;
-            }
-
-            uint32_t bodyLength;
-            std::memcpy(&bodyLength, header_.data(), 4);
-            bodyLength = ntohl(bodyLength);
-
-            ReadBody(bodyLength);
-        }
-    );
-}
-
-/*
- * body 읽기
- */
-void Connection::ReadBody(std::size_t bodyLength) {
-
-    body_.resize(bodyLength);
-
-    boost::asio::async_read(
-        socket_,
-        boost::asio::buffer(body_),
-        [this](auto ec, std::size_t) {
-
-            if (ec) {
-
-                std::cout << "[Disconnect] "
-                          << ec.message() << std::endl;
-
-                StartReconnect();
-                return;
-            }
-
-            ProcessMessage();
-            ReadHeader();
-        }
-    );
-}
-
-/*
- * 수신 메시지 처리
- */
-void Connection::ProcessMessage() {
-
-    std::string msg(body_.begin(), body_.end());
-
-    std::cout << "[RECV] " << msg << std::endl;
 }
 
 /*
@@ -254,9 +289,10 @@ void Connection::ProcessMessage() {
  */
 void Connection::Close() {
 
-    connected_ = false;
+    ChangeState(State::DISCONNECTED);
 
-    if (socket_.is_open()) {
+    CancelHeartbeatTimeout();
+
+    if (socket_.is_open())
         socket_.close();
-    }
 }
