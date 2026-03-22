@@ -129,6 +129,102 @@ trading_engine/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/build
 .PHONY : trading_engine/fast
 
+src/core/Dispatcher.o: src/core/Dispatcher.cpp.o
+.PHONY : src/core/Dispatcher.o
+
+# target to build an object file
+src/core/Dispatcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o
+.PHONY : src/core/Dispatcher.cpp.o
+
+src/core/Dispatcher.i: src/core/Dispatcher.cpp.i
+.PHONY : src/core/Dispatcher.i
+
+# target to preprocess a source file
+src/core/Dispatcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.i
+.PHONY : src/core/Dispatcher.cpp.i
+
+src/core/Dispatcher.s: src/core/Dispatcher.cpp.s
+.PHONY : src/core/Dispatcher.s
+
+# target to generate assembly for a file
+src/core/Dispatcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.s
+.PHONY : src/core/Dispatcher.cpp.s
+
+src/core/Engine.o: src/core/Engine.cpp.o
+.PHONY : src/core/Engine.o
+
+# target to build an object file
+src/core/Engine.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o
+.PHONY : src/core/Engine.cpp.o
+
+src/core/Engine.i: src/core/Engine.cpp.i
+.PHONY : src/core/Engine.i
+
+# target to preprocess a source file
+src/core/Engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Engine.cpp.i
+.PHONY : src/core/Engine.cpp.i
+
+src/core/Engine.s: src/core/Engine.cpp.s
+.PHONY : src/core/Engine.s
+
+# target to generate assembly for a file
+src/core/Engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Engine.cpp.s
+.PHONY : src/core/Engine.cpp.s
+
+src/core/Logger.o: src/core/Logger.cpp.o
+.PHONY : src/core/Logger.o
+
+# target to build an object file
+src/core/Logger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o
+.PHONY : src/core/Logger.cpp.o
+
+src/core/Logger.i: src/core/Logger.cpp.i
+.PHONY : src/core/Logger.i
+
+# target to preprocess a source file
+src/core/Logger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Logger.cpp.i
+.PHONY : src/core/Logger.cpp.i
+
+src/core/Logger.s: src/core/Logger.cpp.s
+.PHONY : src/core/Logger.s
+
+# target to generate assembly for a file
+src/core/Logger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/Logger.cpp.s
+.PHONY : src/core/Logger.cpp.s
+
+src/core/OrderBook.o: src/core/OrderBook.cpp.o
+.PHONY : src/core/OrderBook.o
+
+# target to build an object file
+src/core/OrderBook.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o
+.PHONY : src/core/OrderBook.cpp.o
+
+src/core/OrderBook.i: src/core/OrderBook.cpp.i
+.PHONY : src/core/OrderBook.i
+
+# target to preprocess a source file
+src/core/OrderBook.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.i
+.PHONY : src/core/OrderBook.cpp.i
+
+src/core/OrderBook.s: src/core/OrderBook.cpp.s
+.PHONY : src/core/OrderBook.s
+
+# target to generate assembly for a file
+src/core/OrderBook.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.s
+.PHONY : src/core/OrderBook.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -201,6 +297,30 @@ src/network/EchoServer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.s
 .PHONY : src/network/EchoServer.cpp.s
 
+src/protocol/Parser.o: src/protocol/Parser.cpp.o
+.PHONY : src/protocol/Parser.o
+
+# target to build an object file
+src/protocol/Parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o
+.PHONY : src/protocol/Parser.cpp.o
+
+src/protocol/Parser.i: src/protocol/Parser.cpp.i
+.PHONY : src/protocol/Parser.i
+
+# target to preprocess a source file
+src/protocol/Parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.i
+.PHONY : src/protocol/Parser.cpp.i
+
+src/protocol/Parser.s: src/protocol/Parser.cpp.s
+.PHONY : src/protocol/Parser.s
+
+# target to generate assembly for a file
+src/protocol/Parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/trading_engine.dir/build.make CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.s
+.PHONY : src/protocol/Parser.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -210,6 +330,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... trading_engine"
+	@echo "... src/core/Dispatcher.o"
+	@echo "... src/core/Dispatcher.i"
+	@echo "... src/core/Dispatcher.s"
+	@echo "... src/core/Engine.o"
+	@echo "... src/core/Engine.i"
+	@echo "... src/core/Engine.s"
+	@echo "... src/core/Logger.o"
+	@echo "... src/core/Logger.i"
+	@echo "... src/core/Logger.s"
+	@echo "... src/core/OrderBook.o"
+	@echo "... src/core/OrderBook.i"
+	@echo "... src/core/OrderBook.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -219,6 +351,9 @@ help:
 	@echo "... src/network/EchoServer.o"
 	@echo "... src/network/EchoServer.i"
 	@echo "... src/network/EchoServer.s"
+	@echo "... src/protocol/Parser.o"
+	@echo "... src/protocol/Parser.i"
+	@echo "... src/protocol/Parser.s"
 .PHONY : help
 
 

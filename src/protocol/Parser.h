@@ -1,44 +1,11 @@
-#include "Parser.h"
-#include <sstream>
+#pragma once
 
-/*
- * 메시지 포맷:
- * TYPE|key=value|key=value
- *
- * 예:
- * ORDER_NEW|orderId=123|price=1000
- */
-Message Parser::Parse(const std::vector<char>& body) {
+#include <vector>
+#include "Message.h"
 
-    Message msg;
-
-    //raw 저장
-    msg.raw = std::string(body.begin(), body.end());
-
-    std::stringstream ss(msg.raw);
-    std::string token;
-
-    // 첫 토큰 = MessageType
-    if (std::getline(ss, token, '|')) {
-        if (token == "LOGIN") msg.type = MessageType::LOGIN;
-        else if (token == "ORDER_NEW") msg.type = MessageType::ORDER_NEW;
-        else if (token == "ORDER_CANCEL") msg.type = MessageType::ORDER_CANCEL;
-        else if (token == "ORDER_ACK") msg.type = MessageType::ORDER_ACK;
-        else if (token == "HEARTBEAT") msg.type = MessageType::HEARTBEAT;
-        else msg.type = MessageType::UNKNOWN;
-    }
-
-    // 나머지 = key=value 파싱
-    while (std::getline(ss, token, '|')) {
-        size_t pos = token.find('=');
-
-        if (pos == std::string::npos) continue;
-
-        std::string key = token.substr(0, pos);
-        std::string value = token.substr(pos + 1);
-
-        msg.fields[key] = value;
-    }
-
-    return msg;
-}
+// 문자열 → Message 구조 변환 클래스
+class Parser {
+public:
+    // body 데이터를 파싱해서 Message로 변환
+    Message Parse(const std::vector<char>& body);
+};

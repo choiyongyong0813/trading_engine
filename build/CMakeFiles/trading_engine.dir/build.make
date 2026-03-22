@@ -111,11 +111,86 @@ CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/network/EchoServer.cpp -o CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.s
 
+CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o: CMakeFiles/trading_engine.dir/flags.make
+CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o: ../src/protocol/Parser.cpp
+CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o: CMakeFiles/trading_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o -MF CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o.d -o CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o -c /home/jaeyong/trading-engine/src/protocol/Parser.cpp
+
+CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jaeyong/trading-engine/src/protocol/Parser.cpp > CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.i
+
+CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/protocol/Parser.cpp -o CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.s
+
+CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o: CMakeFiles/trading_engine.dir/flags.make
+CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o: ../src/core/Engine.cpp
+CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o: CMakeFiles/trading_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o -MF CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o.d -o CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o -c /home/jaeyong/trading-engine/src/core/Engine.cpp
+
+CMakeFiles/trading_engine.dir/src/core/Engine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trading_engine.dir/src/core/Engine.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jaeyong/trading-engine/src/core/Engine.cpp > CMakeFiles/trading_engine.dir/src/core/Engine.cpp.i
+
+CMakeFiles/trading_engine.dir/src/core/Engine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/core/Engine.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/core/Engine.cpp -o CMakeFiles/trading_engine.dir/src/core/Engine.cpp.s
+
+CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o: CMakeFiles/trading_engine.dir/flags.make
+CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o: ../src/core/Dispatcher.cpp
+CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o: CMakeFiles/trading_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o -MF CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o.d -o CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o -c /home/jaeyong/trading-engine/src/core/Dispatcher.cpp
+
+CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jaeyong/trading-engine/src/core/Dispatcher.cpp > CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.i
+
+CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/core/Dispatcher.cpp -o CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.s
+
+CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o: CMakeFiles/trading_engine.dir/flags.make
+CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o: ../src/core/OrderBook.cpp
+CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o: CMakeFiles/trading_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o -MF CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o.d -o CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o -c /home/jaeyong/trading-engine/src/core/OrderBook.cpp
+
+CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jaeyong/trading-engine/src/core/OrderBook.cpp > CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.i
+
+CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/core/OrderBook.cpp -o CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.s
+
+CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o: CMakeFiles/trading_engine.dir/flags.make
+CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o: ../src/core/Logger.cpp
+CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o: CMakeFiles/trading_engine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o -MF CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o.d -o CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o -c /home/jaeyong/trading-engine/src/core/Logger.cpp
+
+CMakeFiles/trading_engine.dir/src/core/Logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trading_engine.dir/src/core/Logger.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jaeyong/trading-engine/src/core/Logger.cpp > CMakeFiles/trading_engine.dir/src/core/Logger.cpp.i
+
+CMakeFiles/trading_engine.dir/src/core/Logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trading_engine.dir/src/core/Logger.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jaeyong/trading-engine/src/core/Logger.cpp -o CMakeFiles/trading_engine.dir/src/core/Logger.cpp.s
+
 # Object files for target trading_engine
 trading_engine_OBJECTS = \
 "CMakeFiles/trading_engine.dir/src/main.cpp.o" \
 "CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o" \
-"CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o"
+"CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o" \
+"CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o" \
+"CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o" \
+"CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o" \
+"CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o" \
+"CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o"
 
 # External object files for target trading_engine
 trading_engine_EXTERNAL_OBJECTS =
@@ -123,10 +198,15 @@ trading_engine_EXTERNAL_OBJECTS =
 trading_engine: CMakeFiles/trading_engine.dir/src/main.cpp.o
 trading_engine: CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o
 trading_engine: CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o
+trading_engine: CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o
+trading_engine: CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o
+trading_engine: CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o
+trading_engine: CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o
+trading_engine: CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o
 trading_engine: CMakeFiles/trading_engine.dir/build.make
 trading_engine: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0
 trading_engine: CMakeFiles/trading_engine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable trading_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jaeyong/trading-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable trading_engine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/trading_engine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

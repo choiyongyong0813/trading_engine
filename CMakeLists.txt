@@ -12,7 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Boost REQUIRED COMPONENTS system)
 
 # Boost 헤더 포함
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(
+    ${Boost_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/src
+
+)
 
 # 실행 파일에 포함할 소스 파일들
 add_executable(trading_engine
@@ -20,6 +24,10 @@ add_executable(trading_engine
     src/network/Connection.cpp
     src/network/EchoServer.cpp
     src/protocol/Parser.cpp
+    src/core/Engine.cpp
+    src/core/Dispatcher.cpp
+    src/core/OrderBook.cpp
+    src/core/Logger.cpp
 )
 
 # Boost 라이브러리 링크

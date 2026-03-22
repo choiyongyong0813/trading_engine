@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/jaeyong/trading-engine/src
 
 CXX_FLAGS = -std=gnu++17
 

@@ -8,9 +8,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/jaeyong/trading-engine/src/core/Dispatcher.cpp" "CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/core/Dispatcher.cpp.o.d"
+  "/home/jaeyong/trading-engine/src/core/Engine.cpp" "CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/core/Engine.cpp.o.d"
+  "/home/jaeyong/trading-engine/src/core/Logger.cpp" "CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/core/Logger.cpp.o.d"
+  "/home/jaeyong/trading-engine/src/core/OrderBook.cpp" "CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/core/OrderBook.cpp.o.d"
   "/home/jaeyong/trading-engine/src/main.cpp" "CMakeFiles/trading_engine.dir/src/main.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/main.cpp.o.d"
   "/home/jaeyong/trading-engine/src/network/Connection.cpp" "CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/network/Connection.cpp.o.d"
   "/home/jaeyong/trading-engine/src/network/EchoServer.cpp" "CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/network/EchoServer.cpp.o.d"
+  "/home/jaeyong/trading-engine/src/protocol/Parser.cpp" "CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o" "gcc" "CMakeFiles/trading_engine.dir/src/protocol/Parser.cpp.o.d"
   )
 
 # Targets to which this target links.
