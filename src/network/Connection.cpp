@@ -8,14 +8,15 @@
  */
 Connection::Connection(boost::asio::io_context& io,
                        const std::string& host,
-                       int port)
+                       int port,Dispatcher& dispatcher)
     : socket_(io),
       resolver_(io),
       reconnectTimer_(io),
       heartbeatTimer_(io),
       heartbeatTimeoutTimer_(io),
       host_(host),
-      port_(port)
+      port_(port),
+       dispatcher_(dispatcher) 
 {
 }
 
@@ -210,9 +211,7 @@ void Connection::ReadBody(std::size_t bodyLength) {
             // Parser 호출
             Message msg = parser_.Parse(body_);
 
-            std::cout << "[Parsed Message] "
-                      << msg.payload << std::endl;
-
+            dispatcher_.dispatch(msg);
             CancelHeartbeatTimeout();
 
             ReadHeader();

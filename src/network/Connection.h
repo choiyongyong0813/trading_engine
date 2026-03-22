@@ -6,6 +6,7 @@
 #include <vector>
 #include <deque>
 #include "../protocol/Parser.h"
+#include "../core/Dispatcher.h"
 
 /*
  * 운영급 Connection
@@ -20,7 +21,8 @@ class Connection {
 public:
     Connection(boost::asio::io_context& io,
                const std::string& host,
-               int port);
+               int port,
+               Dispatcher& dispatcher);
 
     void Connect();
     void Close();
@@ -54,7 +56,7 @@ private:
 private:
     boost::asio::ip::tcp::socket socket_;
     boost::asio::ip::tcp::resolver resolver_;
-
+Dispatcher& dispatcher_; 
     boost::asio::steady_timer reconnectTimer_;
     boost::asio::steady_timer heartbeatTimer_;
     boost::asio::steady_timer heartbeatTimeoutTimer_;
